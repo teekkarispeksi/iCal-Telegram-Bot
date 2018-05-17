@@ -5,17 +5,17 @@ import datetime
 import json, time
 from httplib import HTTPSConnection, HTTPConnection
 import sys
-import data, customEnv
+import globalVar, customEnv #our own globalVar.py and customEnv.py files
 sys.path
 sys.path.append('lib')
 url = "api.telegram.org"
 bot = customEnv.bot_url
 offset = 0
 
-calendar_chats = data.default_chats #list of chats requested updates more added with /activate
+calendar_chats = globalVar.default_chats #list of chats requested updates more added with /activate
 calendar_url = customEnv.ical_url
-calendar_publish_hour = data.publish_hour #when hour starts we send the messages
-calendar_publish_minute = data.publish_minute
+calendar_publish_hour = globalVar.publish_hour #when hour starts we send the messages
+calendar_publish_minute = globalVar.publish_minute
 
 def log(msg):
     print msg
@@ -67,7 +67,7 @@ def parse_calendar_updates():
             break
         events_print.append(event)
 
-    daynames = ["Sunnuntaina","Maanataina","Tiistaina","Keskiviikkona","Torstaina","Perjantaina","Lauantaina"]
+    daynames = globalVar.lang['DAYNAMES']
     msg_str = "Tapahtumia lähipäivinä:\n" if (len(events_print) > 0) else "Ei tapahtumia lähipäivinä. Ilmoita tapahtumia: http://kalenteri.speksi.fi"
     for event in events_print:
         daynum = int(event[0].strftime('%w'))
