@@ -5,17 +5,18 @@ import datetime
 import json, time
 from httplib import HTTPSConnection, HTTPConnection
 import sys
-import globalVar, customEnv #our own globalVar.py and customEnv.py files
+import globalConfig, customEnv #our own globalConfig.py and customEnv.py files
 sys.path
 sys.path.append('lib')
 url = "api.telegram.org"
 bot = customEnv.bot_url
 offset = 0
+activeCalendarContent = False
 
-calendar_chats = globalVar.default_chats #list of chats requested updates more added with /activate
+calendar_chats = globalConfig.default_chats #list of chats requested updates more added with /activate
 calendar_url = customEnv.ical_url
-calendar_publish_hour = globalVar.publish_hour #when hour starts we send the messages
-calendar_publish_minute = globalVar.publish_minute
+calendar_publish_hour = globalConfig.publish_hour #when hour starts we send the messages
+calendar_publish_minute = globalConfig.publish_minute
 
 def log(msg):
     print msg
@@ -63,12 +64,16 @@ def parse_calendar_updates():
         s = event[0] - datetime.datetime.now()
         if (s.days < 0):
             continue
-        if (s.days * 86400 + s.seconds > 86400 * 3):
+        if (s.days * 86400 + s.seconds > 86400 * 7):
             break
         events_print.append(event)
 
-    daynames = globalVar.lang['DAYNAMES']
+    daynames = globalConfig.lang['DAYNAMES']
     msg_str = "Tapahtumia lähipäivinä:\n" if (len(events_print) > 0) else "Ei tapahtumia lähipäivinä. Ilmoita tapahtumia: http://kalenteri.speksi.fi"
+    if (len(events_print) > 0):
+        activeCalendarContent = True
+    else:
+        activeCalendarContent = False
     for event in events_print:
         daynum = int(event[0].strftime('%w'))
         msg_str = msg_str + daynames[daynum] + event[0].strftime(' klo %H:%M ') + event[1] + "\n"
@@ -78,8 +83,9 @@ def send_calendar_updates():
     time = datetime.datetime.now()
     if (time.hour == calendar_publish_hour and time.minute == calendar_publish_minute):
         content = parse_calendar_updates()
-        for chat in calendar_chats:
-            sendMessage(chat, content)
+        if activeCalendarContent or time.weekday() == 1:
+            for chat in calendar_chats:
+                sendMessage(chat, content)
     Timer(60.0, send_calendar_updates).start()
 
 send_calendar_updates()
