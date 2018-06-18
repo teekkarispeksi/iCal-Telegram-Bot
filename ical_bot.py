@@ -24,7 +24,10 @@ def log(msg):
         filename.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ': ' + msg + '\n')
 
 def getUpdates():
-    conn = HTTPSConnection(url)
+    try:
+        conn = HTTPSConnection(url)
+    except:
+        return []
     conn.request("GET", bot + "getUpdates?offset=" + str(offset))
     try:
         res = json.loads(conn.getresponse().read())
@@ -34,10 +37,13 @@ def getUpdates():
     return res
 
 def sendMessage(id, msgStr):
-    conn = HTTPSConnection(url)
-    conn.request("GET", bot + "sendMessage?chat_id=" + str(id) + "&text=" + msgStr + "&disable_web_page_preview=true")
-    res = conn.getresponse().read()
-    conn.close()
+    try:
+        conn = HTTPSConnection(url)
+        conn.request("GET", bot + "sendMessage?chat_id=" + str(id) + "&text=" + msgStr + "&disable_web_page_preview=true")
+        res = conn.getresponse().read()
+        conn.close()
+    except:
+        return
 
 def parse_calendar_updates():
     reponse = urllib2.urlopen(calendar_url)
