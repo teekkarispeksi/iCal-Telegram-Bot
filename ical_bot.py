@@ -46,8 +46,11 @@ def sendMessage(id, msgStr):
         return
 
 def parse_calendar_updates():
-    reponse = urllib2.urlopen(calendar_url)
-    data = reponse.read().split('BEGIN:VEVENT')
+    try:
+        reponse = urllib2.urlopen(calendar_url)
+        data = reponse.read().split('BEGIN:VEVENT')
+    except:
+        return ""
     events = []
     for item in data[1:]:
         #print(item)
@@ -87,9 +90,9 @@ def parse_calendar_updates():
 
 def send_calendar_updates():
     time = datetime.datetime.now()
-    if (time.hour == calendar_publish_hour and time.minute == calendar_publish_minute):
+    if time.hour == calendar_publish_hour and time.minute == calendar_publish_minute:
         content = parse_calendar_updates()
-        if activeCalendarContent or time.weekday() == 1:
+        if activeCalendarContent or (time.weekday() == 1 and content != ""):
             for chat in calendar_chats:
                 sendMessage(chat, content)
     Timer(60.0, send_calendar_updates).start()
@@ -98,7 +101,7 @@ send_calendar_updates()
 
 
 def parseRequest(req, chat_id):
-    if (req == "/today"):
+    if (req == "/coming"):
         return [parse_calendar_updates()]
     elif (req == "/activate"):
         if chat_id not in calendar_chats:
@@ -116,7 +119,7 @@ while(True):
     msg = getUpdates()
     try:
         msg = msg['result']
-        if (len(msg) != 0):
+        if len(msg) != 0:
             offset = msg[-1]['update_id']
             msg.pop(0)
             for message in msg:
@@ -126,8 +129,9 @@ while(True):
                     continue
                 chatId = message['message']['chat']['id']
                 res = parseRequest(req, chatId)
-                for msg in res:
-                    sendMessage(chatId, msg)
+                if res != "":
+                    for msg in res:
+                        sendMessage(chatId, msg)
     except:
         continue
 
