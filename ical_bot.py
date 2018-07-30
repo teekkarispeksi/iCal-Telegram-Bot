@@ -27,11 +27,13 @@ def getUpdates():
     try:
         conn = HTTPSConnection(url)
     except:
+        print "HTTPS fail"
         return []
     conn.request("GET", bot + "getUpdates?offset=" + str(offset))
     try:
         res = json.loads(conn.getresponse().read())
     except:
+        print "JSON read fail"
         return []
     conn.close()
     return res
@@ -43,6 +45,7 @@ def sendMessage(id, msgStr):
         res = conn.getresponse().read()
         conn.close()
     except:
+        print "Msg send fail"
         return
 
 def parse_calendar_updates():
@@ -50,6 +53,7 @@ def parse_calendar_updates():
         reponse = urllib2.urlopen(calendar_url)
         data = reponse.read().split('BEGIN:VEVENT')
     except:
+        print "Calendar read fail"
         return ""
     events = []
     for item in data[1:]:
@@ -133,6 +137,7 @@ while(True):
                     for msg in res:
                         sendMessage(chatId, msg)
     except:
+        print "Fail in main loop"
         continue
 
     time.sleep(10)
