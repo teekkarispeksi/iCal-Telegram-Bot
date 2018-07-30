@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 default_chats = ['-1001136929225', '35607656']
-publish_hour = 15
-publish_minute = 00
+publish_hour = 13
+publish_minute = 15
 
 eng = {
     'NO_EVENTS':'No events on near future',
