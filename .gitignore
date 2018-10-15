@@ -1,2 +1,4 @@
 customEnv.py
 *.pyc
+node_modules
+settings.json

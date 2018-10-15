@@ -1,0 +1,33 @@
+{
+  "name": "iCal-Telegram-Bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teekkarispeksi/iCal-Telegram-Bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/teekkarispeksi/iCal-Telegram-Bot/issues"
+  },
+  "homepage": "https://github.com/teekkarispeksi/iCal-Telegram-Bot#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "ical": "^0.5.0",
+    "morgan": "^1.9.1",
+    "node-cron": "^2.0.3",
+    "node-telegram-bot-api": "^0.30.0",
+    "sync-request": "^6.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
