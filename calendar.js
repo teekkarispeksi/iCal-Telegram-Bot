@@ -15,8 +15,6 @@ module.exports = {
         var calendar_str = decoder.write(res.getBody())
         var data = ical.parseICS(calendar_str)
 
-        console.log(data)
-
         for (var k in data){
             if (data.hasOwnProperty(k)) {
                 var ev = data[k]
@@ -42,7 +40,7 @@ module.exports = {
         if (future_events.length > 0){
             for (var i in future_events){
                 var e = future_events[i]
-                output_str = output_str + '\n' + e[1].getDate() + '.' + (e[1].getMonth() + 1) + '. ' + e[0] + ' @ ' + e[2]
+                output_str = output_str + '\n' + e[1].getDate() + '.' + (e[1].getMonth() + 1) + '. klo' + e[1].getHours() + ':' + e[1].getMinutes() + ' ' + e[0] + ' @ ' + e[2]
             }
         }else{
             output_str = 'Ei tapahtumia lähipäivinä. Ilmoita tapahtumia http://kalenteri.speksi.fi'
