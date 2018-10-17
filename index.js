@@ -16,7 +16,7 @@ bot.onText(/\/today/, (msg, match) => {
     bot.sendMessage(chatId, resp);
 });
 
-cron.schedule('0 13 * * *', () => {
+cron.schedule('0 10 * * *', () => {
     console.log('Sending daily updates')
     msg = calendar.comming()
 
