@@ -1,12 +1,9 @@
-const express = require('express')
 const calendar = require('./calendar')
 const settings = require('./settings.json')
 const TelegramBot = require('node-telegram-bot-api')
 const cron = require('node-cron');
 
 const bot = new TelegramBot(settings.bot_token, {polling: true});
-const app = express()
-const port = 3000
 
 bot.onText(/\/today/, (msg, match) => {
    
@@ -25,5 +22,4 @@ cron.schedule('0 10 * * *', () => {
     }
 })
 
-app.get('/', (req, res) => res.send(calendar.comming()))
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+console.log('Bot running...')
