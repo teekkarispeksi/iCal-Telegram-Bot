@@ -42,7 +42,7 @@ module.exports = {
                 var e = future_events[i]
                 minute_str = ''
                 if (e[1].getMinutes() != 0) { minute_str = ':' + e[1].getMinutes()}
-                output_str = output_str + '\n' + e[1].getDate() + '.' + (e[1].getMonth() + 1) + '. ' + String.fromCodePoint(128337) + e[1].getHours() + minute_str + ' ' + e[0] + ' @ ' + e[2]
+                output_str = output_str + '\n' + e[1].getDate() + '.' + (e[1].getMonth() + 1) + '. klo ' + e[1].getHours() + minute_str + ' ' + e[0] + ' @ ' + e[2]
             }
         }else{
             output_str = 'Ei tapahtumia lähipäivinä. Ilmoita tapahtumia http://kalenteri.speksi.fi'
