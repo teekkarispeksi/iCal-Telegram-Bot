@@ -15,13 +15,13 @@ bot.onText(/\/events/, (msg, match) => { //respond to a /events command with eve
 
 cron.schedule('0 10 * * *', () => { //set node-cron to trigger at 10am. GMT (13 or 14 in FIN time) 
     console.log('Sending daily updates')
-    msg = calendar.comming()
+    resp = calendar.comming()
     now = new Date()
 
-    if(now.getDate() % 3 == 0 || msg.event_soon){ //send updates every 3rd day or if an event is comming within 24 hours
+    if(now.getDate() % 3 == 0 || resp.event_soon){ //send updates every 3rd day or if an event is comming within 24 hours
 
         for (var index in settings.send_updates){ //send updates to each predefined Telegram chat
-            bot.sendMessage(settings.send_updates[index], msg.str);
+            bot.sendMessage(settings.send_updates[index], resp.str);
         }
     }
 })

@@ -1,6 +1,8 @@
 const settings = require('./settings.json')
 const request = require('sync-request')
 const ical = require('ical')
+const StringDecoder = require('string_decoder').StringDecoder
+var decoder = new StringDecoder('utf8');
 
 module.exports = {
 
