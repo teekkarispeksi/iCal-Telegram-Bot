@@ -1,8 +1,6 @@
 const settings = require('./settings.json')
 const request = require('sync-request')
 const ical = require('ical')
-const StringDecoder = require('string_decoder').StringDecoder
-var decoder = new StringDecoder('utf8');
 
 module.exports = {
 
@@ -11,11 +9,11 @@ module.exports = {
         var events = []
         var calendar_str = ''
 
-        var res = request('GET', settings.calendar_url)
+        var res = request('GET', settings.calendar_url) //get calendar from url
         var calendar_str = decoder.write(res.getBody())
-        var data = ical.parseICS(calendar_str)
+        var data = ical.parseICS(calendar_str) //parse ical to json
 
-        for (var k in data){
+        for (var k in data){ //create clean array from events
             if (data.hasOwnProperty(k)) {
                 var ev = data[k]
                 if(ev.start){
@@ -24,21 +22,23 @@ module.exports = {
             }
         }
 
-        events.sort(function(a, b){ return b[1] - a[1] })
+        events.sort(function(a, b){ return b[1] - a[1] }) //set events in time order (furthest in future first)
 
         i = 0
         var now = new Date()
         future_events = []
-        while(events[i][1] > now){
+        while(events[i][1] > now){ //get only events that are in future
             future_events.push(events[i])
             i = i + 1
         }
 
-        future_events.sort(function(a, b){ return a[1] - b[1] })
+        future_events.sort(function(a, b){ return a[1] - b[1] }) //reverse events order to show next events first (done with sort for future proofness)
 
         var output_str = 'Tapahtumia lähipäivinä: '
-        if (future_events.length > 0){
-            for (var i in future_events){
+        var event_soon = false
+        if (future_events.length > 0){ //if we have events
+            if (now - future_events[0][1] < 172800000){ event_soon = true } //do we have the first event within 24 hours
+            for (var i in future_events){ //iterate over all events and convert to string
                 var e = future_events[i]
                 minute_str = ''
                 if (e[1].getMinutes() != 0) { minute_str = ':' + e[1].getMinutes()}
@@ -48,6 +48,6 @@ module.exports = {
             output_str = 'Ei tapahtumia lähipäivinä. Ilmoita tapahtumia http://kalenteri.speksi.fi'
         }
 
-        return output_str
+        return {"str": output_str, "event_soon": event_soon}
    }
 }

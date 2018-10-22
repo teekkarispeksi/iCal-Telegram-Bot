@@ -5,20 +5,24 @@ const cron = require('node-cron');
 
 const bot = new TelegramBot(settings.bot_token, {polling: true});
 
-bot.onText(/\/today/, (msg, match) => {
+bot.onText(/\/events/, (msg, match) => { //respond to a /events command with event listing
    
-    const chatId = msg.chat.id;
+    chatId = msg.chat.id;
     resp = calendar.comming()
 
-    bot.sendMessage(chatId, resp);
+    bot.sendMessage(chatId, resp.str);
 });
 
-cron.schedule('0 10 * * *', () => {
+cron.schedule('0 10 * * *', () => { //set node-cron to trigger at 10am. GMT (13 or 14 in FIN time) 
     console.log('Sending daily updates')
     msg = calendar.comming()
+    now = new Date()
 
-    for (var index in settings.send_updates){
-        bot.sendMessage(settings.send_updates[index], msg);
+    if(now.getDate() % 3 == 0 || msg.event_soon){ //send updates every 3rd day or if an event is comming within 24 hours
+
+        for (var index in settings.send_updates){ //send updates to each predefined Telegram chat
+            bot.sendMessage(settings.send_updates[index], msg.str);
+        }
     }
 })
 
