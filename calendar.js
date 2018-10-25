@@ -39,7 +39,7 @@ module.exports = {
         var output_str = 'Tapahtumia lähipäivinä: '
         var event_soon = false
         if (future_events.length > 0){ //if we have events
-            if (now - future_events[0][1] < 172800000){ event_soon = true } //do we have the first event within 24 hours
+            if (Math.abs(now - future_events[0][1]) < 172800000){ event_soon = true } //do we have the first event within 24 hours
             for (var i in future_events){ //iterate over all events and convert to string
                 var e = future_events[i]
                 minute_str = ''
