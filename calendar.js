@@ -12,13 +12,13 @@ module.exports = {
         var calendar_str = ''
 
         var res = request('GET', settings.calendar_url) //get calendar from url
-        var calendar_str = decoder.write(res.getBody())
+        var calendar_str = decoder.write(res.getBody()) //convert byte array to string
         var data = ical.parseICS(calendar_str) //parse ical to json
 
         for (var k in data){ //create clean array from events
             if (data.hasOwnProperty(k)) {
                 var ev = data[k]
-                if(ev.start){
+                if(ev.start){ //check that the object indeed is an event and not some trash
                     events.push([ev.summary, ev.start, ev.location])
                 }
             }
@@ -43,7 +43,9 @@ module.exports = {
             for (var i in future_events){ //iterate over all events and convert to string
                 var e = future_events[i]
                 minute_str = ''
-                if (e[1].getMinutes() != 0) { minute_str = ':' + e[1].getMinutes()}
+                place = e[2]
+                if (!place) { place = settings.default_location}
+                if (e[1].getMinutes() != 0) { minute_str = ':' + e[1].getMinutes()} //make the minutes string here to make next line less crowded
                 output_str = output_str + '\n' + e[1].getDate() + '.' + (e[1].getMonth() + 1) + '. klo ' + e[1].getHours() + minute_str + ' ' + e[0] + ' @ ' + e[2]
             }
         }else{
