@@ -1,5 +1,5 @@
 const settings = require('./settings.json')
-const request = require('request')
+const request = require('sync-request')
 const ical = require('node-ical');
 const StringDecoder = require('string_decoder').StringDecoder
 var decoder = new StringDecoder('utf8');
@@ -14,6 +14,8 @@ module.exports = {
         var res = request('GET', settings.calendar_url) //get calendar from url
         var calendar_str = decoder.write(res.getBody()) //convert byte array to string
         var data = ical.parseICS(calendar_str) //parse ical to json
+
+        console.log(data)
 
         for (var k in data){ //create clean array from events
             if (data.hasOwnProperty(k)) {
