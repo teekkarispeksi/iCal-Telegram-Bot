@@ -17,7 +17,7 @@ bot.onText(/\/enskari/, (msg, match) => {
    
     chatId = msg.chat.id
     now = new Date()
-    target = new Date('2019-03-19T18:00:00')
+    target = new Date('2019-03-19T16:00:00')
     left = target - now
     resp = 'Aikaa enskariin: ' + Math.floor(left / 86400000) + ' päivää, ' + Math.floor((left % 86400000) / 3600000) + ' tuntia ja ' + Math.floor((left % 3600000) / 60000) + ' minuuttia.'
 
