@@ -24,6 +24,13 @@ bot.onText(/\/enskari/, (msg, match) => {
     bot.sendMessage(chatId, resp)
 });
 
+bot.onText(/\/kaato/, (msg, match) => { 
+
+    resp = 'Jos nyt kuitenkin ne näytökset ensin...'
+
+    bot.sendMessage(chatId, resp)
+});
+
 cron.schedule('0 10 * * *', () => { //set node-cron to trigger at 10am. GMT (13 or 14 in FIN time) 
     console.log('Sending daily updates')
     resp = calendar.comming()
