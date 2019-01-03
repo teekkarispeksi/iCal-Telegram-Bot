@@ -26,6 +26,7 @@ bot.onText(/\/enskari/, (msg, match) => {
 
 bot.onText(/\/kaato/, (msg, match) => { 
 
+    chatId = msg.chat.id
     resp = 'Jos nyt kuitenkin ne näytökset ensin...'
 
     bot.sendMessage(chatId, resp)
