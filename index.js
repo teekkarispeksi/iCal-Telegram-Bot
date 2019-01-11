@@ -5,13 +5,17 @@ const cron = require('node-cron')
 
 const bot = new TelegramBot(settings.bot_token, {polling: true})
 
-bot.onText(/\/events/, (msg, match) => { //respond to a /events command with event listing
+bot.onText(/\/tapahtumat/, (msg, match) => { //respond to a /events command with event listing
    
     chatId = msg.chat.id
     resp = calendar.comming()
 
     bot.sendMessage(chatId, resp.str)
-});
+})
+
+function dateString(time){
+    return Math.floor(time / 86400000) + ' päivää, ' + Math.floor((time % 86400000) / 3600000) + ' tuntia ja ' + Math.floor((time % 3600000) / 60000) + ' minuuttia'
+}
 
 bot.onText(/\/enskari/, (msg, match) => { 
    
@@ -19,18 +23,28 @@ bot.onText(/\/enskari/, (msg, match) => {
     now = new Date()
     target = new Date('2019-03-19T16:00:00')
     left = target - now
-    resp = 'Aikaa enskariin: ' + Math.floor(left / 86400000) + ' päivää, ' + Math.floor((left % 86400000) / 3600000) + ' tuntia ja ' + Math.floor((left % 3600000) / 60000) + ' minuuttia.'
+    resp = 'Aikaa enskariin: ' + dateString(left) + '.'
 
     bot.sendMessage(chatId, resp)
-});
+})
 
-bot.onText(/\/kaato/, (msg, match) => { 
+bot.onText(/kaato/g, (msg, match) => { 
 
     chatId = msg.chat.id
-    resp = 'Jos nyt kuitenkin ne näytökset ensin...'
+    vikanaytos = new Date('2019-04-15T20:00:00')
+    now = new Date()
+    
+    if (now > vikanaytos) {
+        target = new Date('2019-05-24T16:00:00')
+        left = target - now
+        resp = 'Aikaa kaatoon: ' + dateString(left) + '.'
+    }else{
+        resp = 'Jos nyt kuitenkin ne näytökset ensin...'
+    }
+
 
     bot.sendMessage(chatId, resp)
-});
+})
 
 cron.schedule('0 10 * * *', () => { //set node-cron to trigger at 10am. GMT (13 or 14 in FIN time) 
     console.log('Sending daily updates')
