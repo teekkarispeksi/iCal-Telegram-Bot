@@ -5,7 +5,7 @@ const cron = require('node-cron')
 
 const bot = new TelegramBot(settings.bot_token, {polling: true})
 
-bot.onText(/\/tapahtumat/, (msg, match) => { //respond to a /events command with event listing
+bot.onText(/\/tapahtumat/g, (msg, match) => { //respond to a /events command with event listing
    
     chatId = msg.chat.id
     resp = calendar.comming()
@@ -17,7 +17,7 @@ function dateString(time){
     return Math.floor(time / 86400000) + ' päivää, ' + Math.floor((time % 86400000) / 3600000) + ' tuntia ja ' + Math.floor((time % 3600000) / 60000) + ' minuuttia'
 }
 
-bot.onText(/\/enskari/, (msg, match) => { 
+bot.onText(/\/enskari/g, (msg, match) => { 
    
     chatId = msg.chat.id
     now = new Date()
@@ -28,7 +28,7 @@ bot.onText(/\/enskari/, (msg, match) => {
     bot.sendMessage(chatId, resp)
 })
 
-bot.onText(/kaato/g, (msg, match) => { 
+bot.onText(/kaato|Kaato|kaado|Kaado/g, (msg, match) => { 
 
     chatId = msg.chat.id
     vikanaytos = new Date('2019-04-15T20:00:00')
