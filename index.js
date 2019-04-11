@@ -31,7 +31,7 @@ bot.onText(/\/enskari/g, (msg, match) => {
 bot.onText(/kaato|Kaato|kaado|Kaado/g, (msg, match) => { 
 
     chatId = msg.chat.id
-    vikanaytos = new Date('2019-04-15T20:00:00')
+    vikanaytos = new Date('2019-04-15T22:15:00')
     now = new Date()
     
     if (now > vikanaytos) {
