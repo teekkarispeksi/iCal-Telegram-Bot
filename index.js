@@ -21,11 +21,11 @@ bot.onText(/\/enskari/g, (msg, match) => {
    
     chatId = msg.chat.id
     now = new Date()
-    target = new Date('2019-03-19T16:00:00')
+    target = new Date('2020-03-19T16:00:00')
     left = target - now
     resp = 'Aikaa enskariin: ' + dateString(left) + '.'
 
-    bot.sendMessage(chatId, resp)
+    bot.sendMessage(chatId, 'Tietäspä koska se on...')
 })
 
 bot.onText(/kaato|Kaato|kaado|Kaado/g, (msg, match) => { 
@@ -35,7 +35,7 @@ bot.onText(/kaato|Kaato|kaado|Kaado/g, (msg, match) => {
     now = new Date()
     
     if (now > vikanaytos) {
-        target = new Date('2019-05-24T16:00:00')
+        target = new Date('2020-05-24T16:00:00')
         left = target - now
         resp = 'Aikaa kaatoon: ' + dateString(left) + '.'
     }else{
