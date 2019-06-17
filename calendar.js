@@ -75,7 +75,7 @@ module.exports = {
                     event_soon = true
                 }
             }
-            output_str = event_today ? today_str : '' + event_soon ? soon_str : ''
+            output_str = (event_today ? today_str + '\n\n' : '') + (event_soon ? soon_str : '')
         }else{
             output_str = 'Ei tapahtumia lähipäivinä. Ilmoita tapahtumia http://kalenteri.speksi.fi'
         }
