@@ -40,7 +40,7 @@ module.exports = {
 
         var today_str = 'Tapahtumia tänään: '
         var event_today = false
-        var soon_str ='Tapahtumia lähipäivinä: '
+        var soon_str = 'Tapahtumia lähipäivinä: '
         var event_soon = false
         var has_events = false
 
@@ -67,7 +67,7 @@ module.exports = {
                 end = ''
                 if (e[3].getDate() != e[2].getDate()) { end = ' - ' + printTime(e[3])}
                 if (place == undefined) { place = settings.default_location}
-                if(sameDay(now, future_events[0][2])){
+                if(sameDay(now, e[2])){
                     today_str = today_str + '\n' + start + end + ' ' + e[0] + ' @ ' + place
                     event_today = true
                 }else{
